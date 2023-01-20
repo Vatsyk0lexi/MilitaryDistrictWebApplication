@@ -1,0 +1,47 @@
+﻿@model RequestViewModel_13
+@if (Model != null)
+{
+    <table class="table table-dark table-bordered align-items-center">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col">Підрозділ</th>
+                <th class="text-center" scope="col">Кількість в\ч</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="text-center">@Model.Corp?.Name @Model.Division?.Name @Model.Army?.Name</td>
+                    <td class="text-center">@(Model?.Amount ?? '0')</td>
+                </tr>
+        </tbody>
+    </table>
+}
+else
+{
+
+    <h1 class="card-title text-center">@ViewBag.Head</h1>
+
+    <form method="get" asp-controller="Home" asp-action="Request_13">
+        <div style="display:flex; align-items: center; flex-wrap">
+            <label asp-for="responce">У підрозділі</label>
+            <div class="form-group col-md-2 m-2">
+                <select asp-for="responce" class="form-control select">
+
+                    <option value="Армія">Армія</option>
+                    <option value="Корпус">Корпус</option>
+                    <option value="Дивізія">Дивізія</option>
+                    
+                </select>
+            </div>
+            <div class="form-group col-md-2 m-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" asp-for="MaxOrMin" checked >
+                    <label asp-for="MaxOrMin" class="form-check-label">
+                        Максимальна кількість в\ч 
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Запит</button>
+        </div>
+    </form>
+}

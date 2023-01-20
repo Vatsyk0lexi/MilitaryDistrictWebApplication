@@ -1,0 +1,24 @@
+﻿@model RequestViewModel_4
+<h1 class="card-title text-center">@ViewBag.Head</h1>
+
+<div class="d-flex flex-wrap align-items-center">
+    @foreach (var item in Model.Commanders)
+    {
+        @if (Model.Commanders.FirstOrDefault() != item)
+        {
+            <div>
+                ----->
+            </div>
+        }
+        <div class="card m-2" style="width: 14rem;height: 16rem">
+            <div class="card-body">
+                <h5 class="card-title">@item.Fullname</h5>
+                <p class="card-text">Категорія: @item.Rank.Category.Name</p>
+                <p class="card-text">Ранг: @item.Rank.Name</p>
+            </div>
+        </div>
+    }
+
+</div>
+
+

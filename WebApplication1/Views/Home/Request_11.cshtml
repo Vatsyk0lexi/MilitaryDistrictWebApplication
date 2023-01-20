@@ -1,0 +1,113 @@
+﻿@model RequestViewModel_11
+@if (Model.SpecialtiesOfMilitaries != null)
+{
+    <table class="table table-dark table-bordered align-items-center">
+        <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center" scope="col">Військовослужбовець</th>
+                <th class="text-center" scope="col">Спеціальність</th>
+                <th class="text-center" scope="col">Перебуває в</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 1; i <= Model.SpecialtiesOfMilitaries.Count(); i++)
+            {
+                <tr>
+                    <td class="text-center">@i</td>
+                    <td class="text-center">@Model.SpecialtiesOfMilitaries.ElementAt(i-1).Military.FullName</td>
+                    <td class="text-center">@Model.SpecialtiesOfMilitaries.ElementAt(i-1).Specialty.Name</td>
+                    <td class="text-center">@Model.SpecialtiesOfMilitaries.ElementAt(i-1).Military.Departament.Name</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+
+    <h1 class="card-title text-center">@ViewBag.Head</h1>
+
+    <form method="get" asp-controller="Home" asp-action="Request_11">
+        <div style="display:flex; align-items: center; flex-wrap">
+
+            <label asp-for="SpecialityID">Спеціальність</label>
+            <div class="form-group col-md-2 m-2">
+                <select asp-for="SpecialityID" class="form-control select">
+                    @foreach (var item in Model.Specialities)
+                    {
+                        <option value="@item?.Id">@item?.Name</option>
+                    }
+                </select>
+            </div>
+            <label asp-for="responce">Підрозділи</label>
+            <div class="form-group col-md-2 m-2">
+                <select asp-for="responce" class="form-control select">
+                    <option selected>Всі...</option>
+                    <optgroup label="Військовий округ">
+                        <option disabled>Західний військовий округ</option>
+                    </optgroup>
+                    <optgroup label="Армія">
+                        @foreach (var item in Model.PartsOfMilitaryDistricts.Armies)
+                        {
+                            <option value="@item?.Name | @item?.Id">
+                                @item?.Name
+                            </option>
+                        }
+                    </optgroup>
+                    <optgroup label="Корпус">
+                        @foreach (var item in Model.PartsOfMilitaryDistricts.Corps)
+                        {
+                            <option value="@item?.Name | @item?.Id">
+                                @item?.Name
+                            </option>
+                        }
+                    </optgroup>
+                    <optgroup label="Дивізія">
+                        @foreach (var item in Model.PartsOfMilitaryDistricts.Divisions)
+                        {
+                            <option value="@item?.Name | @item?.Id">
+                                @item?.Name
+                            </option>
+                        }
+                    </optgroup>
+                    <optgroup label="Військова частина">
+                        @foreach (var item in Model.PartsOfMilitaryDistricts.MilitaryBases)
+                        {
+                            <option style="background: black;color: white" value="ВЧ @item?.Name | @item?.Id">
+                                @item?.Name
+                            </option>
+
+                            @foreach (var rota in Model.PartsOfMilitaryBase.Rotas)
+                            {
+                                if (rota.MilitaryBaseId == item.Id)
+                                {
+                                    <option value="Рота | @rota?.Id" class="m-1">@rota.Name</option>
+                                }
+
+                            }
+                            @foreach (var platoon in Model.PartsOfMilitaryBase.Platoons)
+                            {
+                                if (platoon.MilitaryBaseId == item.Id)
+                                {
+                                    <option value="Взвод | @platoon?.Id" class="m-1">@platoon.Name</option>
+                                }
+
+                            }
+                            @foreach (var departament in Model.PartsOfMilitaryBase.Departaments)
+                            {
+                                if (departament.MilitaryBaseId == item.Id)
+                                {
+                                    <option value="Відділення | @departament?.Id" class="m-1">@departament.Name</option>
+                                }
+
+                            }
+                        }
+                    </optgroup>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Запит</button>
+        </div>
+    </form>
+}

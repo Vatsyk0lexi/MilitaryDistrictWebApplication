@@ -1,0 +1,17 @@
+﻿@model IEnumerable<PlacesOfDeployment>
+<h1 class="card-title text-center">@ViewBag.Head</h1>
+
+<form method="get" asp-controller="Home" asp-action="Request_5">
+    <div style="display:flex; align-items: center">
+        <label asp-for="First().Id">Місця дислокації</label>
+        <div class="form-group col-md-4 m-2">
+            <select asp-for="First().Id" class="form-control select">
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">@item.Settlement</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Запит</button>
+    </div>
+</form>
